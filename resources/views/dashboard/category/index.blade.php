@@ -2,6 +2,12 @@
 @section('content')
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
+            @if(session()->has('success'))
+                <div class="alert alert-success">
+                    {{ session()->get('success') }}
+                </div>
+            @endif
+
             <div class="card-body">
                 <h4 class="card-title">Striped Table</h4>
                 <button type="button" class="btn btn-sm btn-primary"data-target="#editMezalta" data-toggle="modal">Add Category</button>
@@ -14,21 +20,31 @@
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="exampleModalLabel">New message</h4>
                             </div>
+
                             <form action="{{route('category.store')}}" method="post" enctype="multipart/form-data">
 
                             <div class="modal-body">
                                     @csrf
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">name_Ar:</label>
-                                        <input type="text" class="form-control" id="recipient-name" name="name_ar">
+                                        <input type="text" class="form-control" id="recipient-name_Ar" name="name_ar" >
+                                        @error('name_ar')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">name_En:</label>
                                         <input type="text" class="form-control" id="recipient-name" name="name_en">
+                                        @error('name_en')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="message-text" class="control-label">Image:</label>
                                         <input type="file" class="form-control" id="recipient-name" name="image">
+                                        @error('image')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                             </div>
@@ -63,7 +79,7 @@
                         <td> {{$category->name_en}} </td>
 
                         <td class="py-1">
-                            <img src="{{$category->image}}" alt="image" />
+                            <img src="{{$category->image}}" alt="image" width="50px" height="50px" />
                         </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-info"data-target="#edit_{{$category->id}}" data-toggle="modal">edit</button>
@@ -94,14 +110,23 @@
                                         <div class="form-group">
                                             <label for="recipient-name" class="control-label">name AR:</label>
                                             <input type="text" class="form-control" id="recipient-name" name="name_ar" value="{{$category->name_ar}}">
+                                            @error('name_ar')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <label for="recipient-name" class="control-label">name En:</label>
                                             <input type="text" class="form-control" id="recipient-name" name="name_en"  value="{{$category->name_en}}">
+                                            @error('name_en')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <label for="message-text" class="control-label">Image:</label>
                                             <input type="file" class="form-control" id="recipient-name" name="image">
+                                            @error('image')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                 </div>
                                 <div class="modal-footer">
@@ -148,5 +173,6 @@
             </div>
         </div>
     </div>
+
 
 @endsection
