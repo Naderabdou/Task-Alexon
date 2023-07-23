@@ -13,13 +13,11 @@ class Category extends Model
         'name_ar',
         'image',
     ];
-    // get image from storage
     public function getImageAttribute($value)
     {
 
         return asset('uploads/categories/' . $value);
     }
-    //hash name for image
     public function getImageNameAttribute()
     {
        return md5(uniqid());
@@ -28,7 +26,7 @@ class Category extends Model
     }
     public function scopeSelection($query)
     {
-        return $query->select('id', 'name_' . app()->getLocale() . ' as name');
+        return $query->select('id','image', 'name_' . app()->getLocale() . ' as name');
     }
 
 }

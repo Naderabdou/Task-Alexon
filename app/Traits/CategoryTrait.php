@@ -1,6 +1,7 @@
 <?php
 namespace App\Traits;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 trait CategoryTrait
@@ -8,9 +9,12 @@ trait CategoryTrait
     public function deleteImage($photo)
     {
         $path =  $photo;
-        if (Storage::exists($path)) {
-            Storage::delete($path);
+    $path=  substr($path, strpos($path, "uploads/categories/"));
+        if (File::exists($path)){
+            File::delete($path);
+
         }
+
     }
     public function saveImage($photo, $folder,$category)
     {
