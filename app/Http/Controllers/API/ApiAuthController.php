@@ -78,7 +78,7 @@ class ApiAuthController extends Controller
                 'name'=>$data['name'] ,
                 'email' =>$data['email'],
                 'phone'=>$data['phone'],
-                'password'=>Hash::make($data['password']),
+                'password'=>$data['password'],
 
             ]
         );

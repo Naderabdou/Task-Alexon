@@ -9,6 +9,7 @@ trait CategoryTrait
     public function deleteImage($photo)
     {
         $path =  $photo;
+        dd($path);
     $path=  substr($path, strpos($path, "uploads/categories/"));
         if (File::exists($path)){
             File::delete($path);
@@ -19,7 +20,7 @@ trait CategoryTrait
     public function saveImage($photo, $folder,$category)
     {
         //save photo in folder
-        $file_name = $category->getImageNameAttribute(time()) . '.' . $photo->getClientOriginalExtension();
+        $file_name = $category->name_en . '.' . $photo->getClientOriginalExtension();
         $path = $folder;
         $photo->move($path, $file_name);
         return $file_name;
