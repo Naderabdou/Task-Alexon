@@ -22,25 +22,12 @@ class ApiAuthController extends Controller
     {
         $this->middleware('AuthApi:user-api', ['except' => ['login', 'register']]);
     }
-    public function login(Request $request)
+    public function login(UserRequest $request)
     {
         try {
 
-
-            $rules = [
-                'email' => 'required|email',
-                'password' => 'required|min:6',
-            ];
-            $validator = Validator::make($request->all(), $rules);
-            if ($validator->fails()) {
-                $code = $this->returnCodeAccordingToInput($validator);
-                return $this->returnValidationError($code, $validator);
-            }
-
-
             $credentials = $request->only('email', 'password');
             $token = Auth::guard('user-api')->attempt($credentials);
-
 
             if (!$token) {
                 return $this->returnError('E001', 'البيانات المدخلة غير صحيحة');
@@ -55,33 +42,14 @@ class ApiAuthController extends Controller
     }
 
 
-    public function register(Request $request) {
-        $rules = [
-            'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'phone'=>'required|max:100|unique:users',
-            'password' => 'required|string|min:6',
 
-        ];
-        $validator = Validator::make($request->all(), $rules);
+    public function register(UserRegisterRequest $request) {
 
 
-        if ($validator->fails()) {
-            $code = $this->returnCodeAccordingToInput($validator);
-            return $this->returnValidationError($code, $validator);
-        }
-        $data = $validator->validated();
+        $data = $request->validated();
 
 
-        $user = User::create(
-            [
-                'name'=>$data['name'] ,
-                'email' =>$data['email'],
-                'phone'=>$data['phone'],
-                'password'=>$data['password'],
-
-            ]
-        );
+        $user = User::create($data);
         return $this->returnData('user', $user,'تم التسجيل بنجاح');
 
     }
